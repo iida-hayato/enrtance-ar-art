@@ -17,7 +17,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var sceneView: ARSCNView!
 
     // URL of the Sumerian scene.
-    private let sceneURL = URL(string: "https://d1550wa51vq95s.cloudfront.net/cab395b5e46b44f3affe4957fb04cf32.scene/?arMode=true")!
+    private let sceneURL = URL(string: "https://us-east-2.sumerian.aws/866aa9a3e1a14ff2ad647b365b9fd789.scene/?arMode=true")!
 
     private var cubeMaterials: [SCNMaterial]!
     private var sumerianConnector: SumerianConnector!
