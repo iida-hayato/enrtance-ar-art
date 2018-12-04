@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "SumerianAnchorImage.png"
+      "filename" : "IMG_1842.jpg"
     }
   ],
   "info" : {
@@ -10,6 +10,6 @@
     "author" : "xcode"
   },
   "properties" : {
-    "width" : 0.17999999999999999
+    "width" : 0.070000000000000007
   }
 }

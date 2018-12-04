@@ -21,7 +21,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     private var cubeMaterials: [SCNMaterial]!
     private var sumerianConnector: SumerianConnector!
-    private var createDebugNodes: Bool = true
+    private var createDebugNodes: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,16 +44,28 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         configureARSession()
     }
 
-    /// Creates a new AR configuration to run on the `session`.
+  fileprivate func worldTrackingConfiguration(_ referenceImages: Set<ARReferenceImage>)-> ARWorldTrackingConfiguration {
+    let configuration = ARWorldTrackingConfiguration()
+    configuration.detectionImages = referenceImages
+    configuration.planeDetection = .horizontal
+    configuration.isLightEstimationEnabled = true
+    return configuration
+  }
+
+  fileprivate func imageTrackingConfiguration(_ referenceImages: Set<ARReferenceImage>)-> ARImageTrackingConfiguration {
+    let configuration = ARImageTrackingConfiguration()
+    configuration.trackingImages = referenceImages
+    configuration.isLightEstimationEnabled = true
+    return configuration
+  }
+
+  /// Creates a new AR configuration to run on the `session`.
     func configureARSession() {
         guard let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) else {
             fatalError("Missing expected asset catalog resources.")
         }
         
-        let configuration = ARWorldTrackingConfiguration()
-        configuration.detectionImages = referenceImages
-        configuration.planeDetection = .horizontal
-        configuration.isLightEstimationEnabled = true
+        let configuration = imageTrackingConfiguration( referenceImages)
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
 
@@ -70,7 +82,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // ARSCNViewDelegate
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
         if !self.createDebugNodes {
-            return nil
+            return SCNNode()
         }
 
         let cube = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.0)
