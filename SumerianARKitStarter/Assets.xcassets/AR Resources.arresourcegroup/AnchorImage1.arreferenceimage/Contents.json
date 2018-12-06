@@ -1,15 +1,12 @@
 {
   "images" : [
-    {
-      "idiom" : "universal",
-      "filename" : "IMG_1842.jpg"
-    }
+
   ],
   "info" : {
     "version" : 1,
     "author" : "xcode"
   },
   "properties" : {
-    "width" : 0.070000000000000007
+    "width" : 0.5
   }
 }

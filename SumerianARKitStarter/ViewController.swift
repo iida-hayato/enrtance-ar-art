@@ -17,7 +17,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var sceneView: ARSCNView!
 
     // URL of the Sumerian scene.
-    private let sceneURL = URL(string: "https://us-east-2.sumerian.aws/866aa9a3e1a14ff2ad647b365b9fd789.scene/?arMode=true")!
+    private let sceneURL = URL(string: "https://us-east-2.sumerian.aws/c16ab3c3badf4670be6c5a6292ac6782.scene/?arMode=true")!
 
     private var cubeMaterials: [SCNMaterial]!
     private var sumerianConnector: SumerianConnector!
@@ -65,7 +65,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             fatalError("Missing expected asset catalog resources.")
         }
         
-        let configuration = imageTrackingConfiguration( referenceImages)
+        let configuration = worldTrackingConfiguration( referenceImages)
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
 
