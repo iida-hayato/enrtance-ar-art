@@ -1,6 +1,9 @@
 {
   "images" : [
-
+    {
+      "idiom" : "universal",
+      "filename" : "bell.png"
+    }
   ],
   "info" : {
     "version" : 1,
