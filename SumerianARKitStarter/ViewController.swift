@@ -17,11 +17,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var sceneView: ARSCNView!
 
     // URL of the Sumerian scene.
-    private let sceneURL = URL(string: "https://d1550wa51vq95s.cloudfront.net/cab395b5e46b44f3affe4957fb04cf32.scene/?arMode=true")!
+    private let sceneURL = URL(string: "https://us-east-2.sumerian.aws/c16ab3c3badf4670be6c5a6292ac6782.scene/?arMode=true")!
 
     private var cubeMaterials: [SCNMaterial]!
     private var sumerianConnector: SumerianConnector!
-    private var createDebugNodes: Bool = true
+    private var createDebugNodes: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,16 +44,28 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         configureARSession()
     }
 
-    /// Creates a new AR configuration to run on the `session`.
+  fileprivate func worldTrackingConfiguration(_ referenceImages: Set<ARReferenceImage>)-> ARWorldTrackingConfiguration {
+    let configuration = ARWorldTrackingConfiguration()
+    configuration.detectionImages = referenceImages
+    configuration.planeDetection = .horizontal
+    configuration.isLightEstimationEnabled = true
+    return configuration
+  }
+
+  fileprivate func imageTrackingConfiguration(_ referenceImages: Set<ARReferenceImage>)-> ARImageTrackingConfiguration {
+    let configuration = ARImageTrackingConfiguration()
+    configuration.trackingImages = referenceImages
+    configuration.isLightEstimationEnabled = true
+    return configuration
+  }
+
+  /// Creates a new AR configuration to run on the `session`.
     func configureARSession() {
         guard let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) else {
             fatalError("Missing expected asset catalog resources.")
         }
         
-        let configuration = ARWorldTrackingConfiguration()
-        configuration.detectionImages = referenceImages
-        configuration.planeDetection = .horizontal
-        configuration.isLightEstimationEnabled = true
+        let configuration = worldTrackingConfiguration( referenceImages)
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
 
@@ -70,7 +82,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // ARSCNViewDelegate
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
         if !self.createDebugNodes {
-            return nil
+            return SCNNode()
         }
 
         let cube = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.0)
